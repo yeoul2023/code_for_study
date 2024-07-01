@@ -27,32 +27,6 @@ print("Your mission is to find the treasure.")
 
 #Write your code below this line 👇\
 
-# def ts_game():
-#     while True:
-#         first_case = input("left or right?: ").lower()
-#         if first_case == "right":
-#             print("Game Over")
-#             continue
-
-#         second_case = input("swim or wait?: ").lower()
-#         if second_case == "swim":
-#             print("Game Over")
-#             continue
-
-#         third_case = input("Which door? Red, Blue or Yellow: ").lower()
-#         if third_case == "red":
-#             print("Game Over")
-#             continue
-#         elif third_case == "blue":
-#             print("Game Over")
-#             continue
-#         elif third_case == "yellow":
-#             print("You Win!")
-#             break
-#         else:
-#             print("문도 제대로 못 고르냐")
-#             continue
-
 import time
 
 
