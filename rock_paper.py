@@ -34,6 +34,9 @@ def rock_paper_sissor():
     return choice
 
 def main():
+    user_name = input("What's your name:")
+    print(f"{user_name} Welcome!!")
+
     computer_choice = rock_paper_sissor()
     
     user_choice = input("choose rock, paper or scissors")
@@ -49,7 +52,7 @@ def main():
     elif (user_choice == "rock" and computer_choice == "scissors") or \
          (user_choice == "paper" and computer_choice == "rock") or \
          (user_choice == "scissors" and computer_choice == "paper"):
-         print("사용자가 이겼습니다!")
+         print(f"{user_name}님이 이겼습니다!")
     else:
          print("컴퓨터가 이겼습니다!")
 
