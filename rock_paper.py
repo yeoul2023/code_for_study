@@ -29,32 +29,35 @@ choices = {
     '''
 }
 
-def rock_paper_sissor():
-    choice = rd.choice(list(choices.keys())) # "rock", "paper", "scissors" 중 하나를 무작위로 선택
-    return choice
+def get_computer_choice():
+    return rd.choice(list(choices.keys()))
 
-def main():
-    user_name = input("What's your name:")
-    print(f"{user_name} Welcome!!")
-
-    computer_choice = rock_paper_sissor()
-    
-    user_choice = input("choose rock, paper or scissors")
+def get_user_choice():
+    user_choice = input("Choose rock, paper, or scissors: ").strip().lower()
     while user_choice not in choices:
-        print("잘못된 입력입니다.")
-        user_choice = input("choose rock, paper or scissors")
+        print("Invalid input. Please choose again.")
+        user_choice = input("Choose rock, paper, or scissors: ").strip().lower()
+    return user_choice
 
-    print(f"computer\n{choices[computer_choice]}")
-    print(f"user\n{choices[user_choice]}")
-    
+def determine_winner(user_choice, computer_choice):
     if user_choice == computer_choice:
-         print("비겼습니다!")
+        return "It's a tie!"
     elif (user_choice == "rock" and computer_choice == "scissors") or \
          (user_choice == "paper" and computer_choice == "rock") or \
          (user_choice == "scissors" and computer_choice == "paper"):
-         print(f"{user_name}님이 이겼습니다!")
+        return "User wins!"
     else:
-         print("컴퓨터가 이겼습니다!")
+        return "Computer wins!"
+    
+def main():
+    computer_choice = get_computer_choice()
+    user_choice = get_user_choice()
 
+    print(f"Computer chose:\n{choices[computer_choice]}\n")
+    print(f"You chose:\n{choices[user_choice]}\n")
+    
+    result = determine_winner(user_choice, computer_choice)
+    print(result)
 
-main()
+if __name__ == "__main__":
+    main()
