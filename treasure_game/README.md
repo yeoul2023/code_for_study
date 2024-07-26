@@ -1,5 +1,5 @@
 # Project Structure
-'''
+```
 treasure_game/
 │
 ├── game/
@@ -16,7 +16,7 @@ treasure_game/
 ├── main.py
 ├── README.md
 └── requirements.txt
-'''
+```
 
 # Treasure Island Game
 
