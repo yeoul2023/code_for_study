@@ -26,7 +26,7 @@ print("Your mission is to find the treasure.")
 #https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Treasure%20Island%20Conditional.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1oDe4ehjWZipYRsVfeAx2HyB7LCQ8_Fvi%26export%3Ddownload
 
 import time
-
+import os
 
 #게임 함수
 def ts_game():
@@ -86,7 +86,7 @@ def save_player_info(file_path, players):
     with open(file_path, 'w') as f:
         for player_name, play_time in players:
             f.write(f"{player_name},{play_time}\n")
-    print(f"플레이어 정보가 {file_path} 파일에 저장되었습니다.")
+    print(f"플레이어 데이터가 {file_path} 경로에 저장되었습니다.")
 
 def load_player_info(file_path):
     """
@@ -95,13 +95,19 @@ def load_player_info(file_path):
     :return: 플레이어 정보 리스트 (리스트의 각 요소는 (순위, 이름) 튜플)
     """
     players_data = []
-    try:
+    if os.path.exists(file_path):
         with open(file_path, 'r') as f:
             for line in f:
                 player_name, play_time = line.strip().split(',')
                 players_data.append((player_name, float(play_time)))
-    except FileNotFoundError:
-        print(f"{file_path} 파일을 찾을 수 없습니다.")
+        print("플레이어 데이터를 읽어왔습니다.")
+    else:
+        print("플레이어 기록이 없습니다.")
+        directory = os.path.dirname(file_path)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
+        open(file_path, 'w').close()  # 새로운 파일 생성
+
     return players_data
 
 
@@ -109,9 +115,11 @@ def main():
 
     players = []    #각 플레이어의 기록을 저장할 리스트
     
-    file_path = "player_data.txt"
-    load_player_info(file_path)
-    players.extend(load_player_info(file_path))
+    # treasure.py 파일이 있는 디렉토리 경로 가져오기
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_dir, "player_data.txt")
+
+    players.extend(load_player_info(file_path)) # 파일에서 기존 플레이어 정보를 불러옴
 
     while True:
         player_name = input("What's your name? : ").strip()
