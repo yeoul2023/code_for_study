@@ -72,17 +72,53 @@ def get_play_time():
     play_time = ts_game()
     end_time = time.time()
     if play_time is not None:
-        return end_time - start_time    #플레이 시간 반환
+        total_time = end_time - start_time
+        return round(total_time, 2) #플레이 시간 반환
     else:
         return None
+
+def save_player_info(file_path, players):
+    """
+    플레이어 정보를 텍스트 파일로 저장합니다.
+    :param file_path: 저장할 파일 경로
+    :param players: 플레이어 정보 리스트 (리스트의 각 요소는 (순위, 이름) 튜플)
+    """
+    with open(file_path, 'w') as f:
+        for player_name, play_time in players:
+            f.write(f"{player_name},{play_time}\n")
+    print(f"플레이어 정보가 {file_path} 파일에 저장되었습니다.")
+
+def load_player_info(file_path):
+    """
+    텍스트 파일에서 플레이어 정보를 읽어옵니다.
+    :param file_path: 읽어올 파일 경로
+    :return: 플레이어 정보 리스트 (리스트의 각 요소는 (순위, 이름) 튜플)
+    """
+    players_data = []
+    try:
+        with open(file_path, 'r') as f:
+            for line in f:
+                player_name, play_time = line.strip().split(',')
+                players_data.append((player_name, float(play_time)))
+    except FileNotFoundError:
+        print(f"{file_path} 파일을 찾을 수 없습니다.")
+    return players_data
 
 
 def main():
 
     players = []    #각 플레이어의 기록을 저장할 리스트
+    
+    file_path = "player_data.txt"
+    load_player_info(file_path)
+    players.extend(load_player_info(file_path))
 
     while True:
-        player_name = input("What's your name? : ")
+        player_name = input("What's your name? : ").strip()
+        if not player_name:
+            print("Name cannot be empty. Please enter your name.")
+            continue
+
         print(f"Welcome, {player_name}!")
 
         while True:
@@ -105,13 +141,18 @@ def main():
             break
         
 
-#등수 매기기
+    #등수 매기기
     sorted_players = sorted(players, key=lambda x: x[1])    #플레이 시간 순으로 정렬
 
-#결과 출력
+    #결과 출력
     print("\n게임 결과:")
     for rank, (name, time) in enumerate(sorted_players, start=1):
         print(f"{rank}. {name}: {time:.2f} 초")
+
+
+
+    # 플레이어 정보를 파일에 저장
+    save_player_info(file_path, sorted_players)
 
 
 if __name__ == "__main__":
