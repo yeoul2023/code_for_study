@@ -1,3 +1,4 @@
+#game_logic.py
 def ts_game():
     while True:
         first_case = input("left or right?: ").strip().lower()
